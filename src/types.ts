@@ -5,8 +5,11 @@ export interface Customer {
   dob: string;
 }
 
+export type FrameShape = "rectangle" | "round" | "cat-eye";
+
 export interface Frame {
   id: string;
+  frameCode: string;
   name: string;
   rimType: string;
   material: string;
@@ -14,6 +17,7 @@ export interface Frame {
   frameB: number;
   dbl: number;
   color: string;
+  shape: FrameShape;
 }
 
 export type ConfidenceLevel = "high" | "medium" | "low";

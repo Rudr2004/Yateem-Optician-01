@@ -20,7 +20,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       {message && (
         <div className="absolute bottom-24 left-0 right-0 flex justify-center z-[60] px-6 pointer-events-none">
-          <div className="flex items-center gap-2 bg-[#1a2033] border border-white/10 text-white text-[13px] font-medium px-4 py-3 rounded-2xl shadow-2xl animate-fade-slide-up max-w-full">
+          <div className="flex items-center gap-2 bg-[var(--navy)] text-white text-[13px] font-medium px-4 py-3 rounded-2xl shadow-2xl animate-fade-slide-up max-w-full">
             <CheckCircle2 size={16} className="text-emerald-400 flex-shrink-0" />
             <span className="truncate">{message}</span>
           </div>

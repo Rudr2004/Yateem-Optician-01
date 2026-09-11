@@ -40,13 +40,13 @@ export function CameraMeasurementScreen() {
         right={
           <button
             onClick={() => setInfoOpen(true)}
-            className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 active:bg-white/10"
+            className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 active:bg-white/20"
           >
-            <Info size={15} className="text-slate-300" />
+            <Info size={15} className="text-blue-100" />
           </button>
         }
       />
-      <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-4 animate-fade-slide-up">
+      <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-4 animate-fade-slide-up bg-[#05070d]">
         <div className="flex items-center gap-2">
           <span className="relative flex w-2 h-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
@@ -57,13 +57,13 @@ export function CameraMeasurementScreen() {
 
         <CameraOverlay />
 
-        <div className="bg-white/[0.04] border border-white/8 rounded-xl px-4 py-3 text-center">
-          <p className="text-[13px] text-indigo-200 font-medium transition-all">
+        <div className="bg-white/[0.05] border border-white/10 rounded-xl px-4 py-3 text-center">
+          <p className="text-[13px] text-blue-200 font-medium transition-all">
             {CAMERA_INSTRUCTIONS[instructionIndex]}
           </p>
         </div>
 
-        <AIAnalysisPanel detections={BASE_DETECTIONS} />
+        <AIAnalysisPanel detections={BASE_DETECTIONS} dark />
 
         <div className="grid grid-cols-2 gap-2.5">
           {[
@@ -72,7 +72,7 @@ export function CameraMeasurementScreen() {
             { label: "Frame Detection", value: 95 },
             { label: "Pupil Detection", value: 96 },
           ].map((d) => (
-            <div key={d.label} className="bg-white/[0.04] border border-white/8 rounded-xl p-3">
+            <div key={d.label} className="bg-white/[0.05] border border-white/10 rounded-xl p-3">
               <div className="text-[10px] text-slate-400 mb-1">{d.label}</div>
               <div className="text-[16px] font-bold text-emerald-400">{d.value}%</div>
             </div>
@@ -80,7 +80,7 @@ export function CameraMeasurementScreen() {
         </div>
         <div className="text-center text-[10px] text-slate-500">AI/CV POC</div>
       </div>
-      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0">
+      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0 bg-[#05070d]">
         <PrimaryButton
           disabled={!ready}
           icon={<Camera size={17} />}
@@ -101,12 +101,12 @@ export function CameraMeasurementScreen() {
             ["Geometric Analysis", "Uses detected reference points to calculate optical parameters."],
             ["Measurement Validation", "Checks measurements against configured tolerances."],
           ].map(([title, desc]) => (
-            <div key={title} className="border-b border-white/5 pb-3 last:border-0">
-              <div className="text-[13px] font-semibold text-white">{title}</div>
-              <div className="text-[12px] text-slate-400 mt-0.5">{desc}</div>
+            <div key={title} className="border-b border-[var(--border-soft)] pb-3 last:border-0">
+              <div className="text-[13px] font-semibold text-[var(--text-primary)]">{title}</div>
+              <div className="text-[12px] text-[var(--text-secondary)] mt-0.5">{desc}</div>
             </div>
           ))}
-          <p className="text-[11px] text-slate-500 leading-relaxed pt-1">
+          <p className="text-[11px] text-[var(--text-muted)] leading-relaxed pt-1">
             This is a POC representation of the intended AI/CV architecture. AI/CV processing
             shown in this POC is simulated. Production implementation will require validated
             computer-vision models, device calibration, reference measurements, accuracy testing

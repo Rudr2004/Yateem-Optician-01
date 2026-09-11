@@ -2,8 +2,36 @@ import { useNavigate } from "react-router-dom";
 import { AppScreen } from "../components/ScreenContainer";
 import { MobileHeader } from "../components/MobileHeader";
 import { PrimaryButton } from "../components/Buttons";
+import { FacePortrait } from "../components/FacePortrait";
+import { FACE_GLASSES, FACE_FRONT } from "../assets/faceImages";
 import { useAppState } from "../state/AppStateContext";
-import type { TintColor } from "../types";
+import type { FrameShape, TintColor } from "../types";
+
+// Pupil centers measured against the customer photo's object-cover crop
+// in the 3:4 preview box (detected via pixel analysis, not eyeballed):
+// left eye at 37.5%/49.2%, right eye at 63.8%/49.2%.
+const LEFT_EYE = { cx: 112.5, cy: 197 };
+const RIGHT_EYE = { cx: 191.4, cy: 197 };
+
+function LensShape({ cx, cy, shape }: { cx: number; cy: number; shape: FrameShape }) {
+  if (shape === "round") {
+    return <circle cx={cx} cy={cy} r={34} />;
+  }
+  if (shape === "cat-eye") {
+    const half = 42;
+    return (
+      <path
+        d={`M${cx - half} ${cy + 12}
+            Q${cx - half - 4} ${cy - 20} ${cx} ${cy - 26}
+            Q${cx + half + 4} ${cy - 20} ${cx + half} ${cy + 12}
+            Q${cx + half - 10} ${cy + 28} ${cx} ${cy + 26}
+            Q${cx - half + 10} ${cy + 28} ${cx - half} ${cy + 12} Z`}
+      />
+    );
+  }
+  // rectangle
+  return <rect x={cx - 40} y={cy - 29} width={80} height={58} rx={14} />;
+}
 
 const TINT_COLORS: { key: TintColor; hex: string }[] = [
   { key: "Grey", hex: "#6b7280" },
@@ -19,63 +47,90 @@ export function TintScreen() {
   const navigate = useNavigate();
   const { state, setTintColor, setTintOpacity } = useAppState();
   const activeColor = TINT_COLORS.find((c) => c.key === state.tint.color)!;
+  const photoSrc = FACE_GLASSES || FACE_FRONT;
+  const frameShape: FrameShape = state.selectedFrame?.shape ?? "round";
 
   return (
     <AppScreen>
-      <MobileHeader title="Tint & Virtual Try-On" showBack />
+      <MobileHeader title="Tint & Virtual Try-On" subtitle="Step 7 of 7" showBack light />
       <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-4 animate-fade-slide-up">
-        <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden bg-gradient-to-b from-[#1c2333] to-[#0e1220] border border-white/10">
-          <svg viewBox="0 0 300 400" className="absolute inset-0 w-full h-full">
+        <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden bg-[#0d131f] border border-[var(--border-soft)]">
+          {photoSrc ? (
+            <img src={photoSrc} alt="Customer preview" className="absolute inset-0 w-full h-full object-cover" />
+          ) : (
+            <FacePortrait className="absolute inset-0 w-full h-full" />
+          )}
+
+          {/* Frame outline with tinted lenses, positioned over the eye area (calibrated to the customer photo) */}
+          <svg
+            viewBox="0 0 300 400"
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            style={{ display: photoSrc ? "block" : "none" }}
+          >
+            <g stroke="#1a1a1a" strokeWidth="3.5" strokeLinejoin="round">
+              <g fill={activeColor.hex} opacity={state.tint.opacity / 100}>
+                <LensShape cx={LEFT_EYE.cx} cy={LEFT_EYE.cy} shape={frameShape} />
+                <LensShape cx={RIGHT_EYE.cx} cy={RIGHT_EYE.cy} shape={frameShape} />
+              </g>
+              <path d="M158 193 Q152 187 146 193" fill="none" />
+              <path d="M79 187 L55 177" strokeLinecap="round" />
+              <path d="M225 187 L249 177" strokeLinecap="round" />
+            </g>
+            <g fill="url(#lensSheen)">
+              <LensShape cx={LEFT_EYE.cx} cy={LEFT_EYE.cy} shape={frameShape} />
+              <LensShape cx={RIGHT_EYE.cx} cy={RIGHT_EYE.cy} shape={frameShape} />
+            </g>
             <defs>
-              <linearGradient id="skin2" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#3a3244" />
-                <stop offset="100%" stopColor="#2b2636" />
+              <linearGradient id="lensSheen" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.35" />
+                <stop offset="55%" stopColor="#ffffff" stopOpacity="0.03" />
               </linearGradient>
             </defs>
-            <ellipse cx="150" cy="190" rx="82" ry="105" fill="url(#skin2)" />
-            <path d="M70 150 Q70 60 150 55 Q230 60 230 150 Q230 110 150 100 Q70 110 70 150 Z" fill="#1a1520" />
-            <ellipse cx="118" cy="180" rx="13" ry="7" fill="#e8e2ea" />
-            <ellipse cx="182" cy="180" rx="13" ry="7" fill="#e8e2ea" />
-            <circle cx="118" cy="180" r="4.5" fill="#2c1810" />
-            <circle cx="182" cy="180" r="4.5" fill="#2c1810" />
-            <path d="M104 165 Q118 159 132 164" stroke="#1a1520" strokeWidth="3" fill="none" strokeLinecap="round" />
-            <path d="M168 164 Q182 159 196 165" stroke="#1a1520" strokeWidth="3" fill="none" strokeLinecap="round" />
-            <path d="M150 180 L146 210 Q150 216 154 210 Z" fill="#231d2e" opacity="0.4" />
-            <path d="M128 240 Q150 250 172 240" stroke="#5c3a3a" strokeWidth="3" fill="none" strokeLinecap="round" />
-
-            {/* Frame with tinted lenses */}
-            <g stroke="#0a0e1a" strokeWidth="4">
-              <rect
-                x="90"
-                y="165"
-                rx="10"
-                ry="10"
-                width="60"
-                height="34"
-                fill={activeColor.hex}
-                opacity={state.tint.opacity / 100}
-              />
-              <rect
-                x="150"
-                y="165"
-                rx="10"
-                ry="10"
-                width="60"
-                height="34"
-                fill={activeColor.hex}
-                opacity={state.tint.opacity / 100}
-              />
-              <path d="M90 178 L70 172" strokeLinecap="round" />
-              <path d="M210 178 L230 172" strokeLinecap="round" />
-            </g>
           </svg>
-          <span className="absolute top-3 left-3 text-[9px] font-semibold text-slate-300 bg-black/40 px-2 py-1 rounded-full">
+
+          {!photoSrc && (
+            <>
+              <div
+                className="absolute rounded-full -translate-x-1/2 -translate-y-1/2"
+                style={{
+                  left: "27%",
+                  top: "40%",
+                  width: "18%",
+                  height: "13%",
+                  backgroundColor: activeColor.hex,
+                  opacity: state.tint.opacity / 100,
+                  mixBlendMode: "multiply",
+                  filter: "blur(1px)",
+                }}
+              />
+              <div
+                className="absolute rounded-full -translate-x-1/2 -translate-y-1/2"
+                style={{
+                  left: "56%",
+                  top: "40%",
+                  width: "18%",
+                  height: "13%",
+                  backgroundColor: activeColor.hex,
+                  opacity: state.tint.opacity / 100,
+                  mixBlendMode: "multiply",
+                  filter: "blur(1px)",
+                }}
+              />
+            </>
+          )}
+
+          <span className="absolute top-3 left-3 text-[9px] font-semibold text-white bg-black/45 px-2 py-1 rounded-full">
             Virtual preview
           </span>
+          {state.selectedFrame && (
+            <span className="absolute top-3 right-3 text-[9px] font-semibold text-white bg-black/45 px-2 py-1 rounded-full">
+              {state.selectedFrame.name}
+            </span>
+          )}
         </div>
 
         <div>
-          <div className="text-[11px] text-slate-400 mb-2">Tint Color</div>
+          <div className="text-[11px] text-[var(--text-muted)] mb-2">Tint Color</div>
           <div className="flex gap-2.5">
             {TINT_COLORS.map((c) => (
               <button
@@ -87,12 +142,14 @@ export function TintScreen() {
                   className="w-10 h-10 rounded-full border-2"
                   style={{
                     backgroundColor: c.hex,
-                    borderColor: state.tint.color === c.key ? "#818cf8" : "transparent",
+                    borderColor: state.tint.color === c.key ? "var(--royal)" : "transparent",
                   }}
                 />
                 <span
                   className={`text-[10px] ${
-                    state.tint.color === c.key ? "text-indigo-300 font-semibold" : "text-slate-400"
+                    state.tint.color === c.key
+                      ? "text-[var(--royal)] font-semibold"
+                      : "text-[var(--text-muted)]"
                   }`}
                 >
                   {c.key}
@@ -104,8 +161,10 @@ export function TintScreen() {
 
         <div>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] text-slate-400">Opacity</span>
-            <span className="text-[12px] font-semibold text-white">{state.tint.opacity}%</span>
+            <span className="text-[11px] text-[var(--text-muted)]">Opacity</span>
+            <span className="text-[12px] font-semibold text-[var(--text-primary)]">
+              {state.tint.opacity}%
+            </span>
           </div>
           <input
             type="range"
@@ -120,23 +179,23 @@ export function TintScreen() {
               );
               setTintOpacity(nearest);
             }}
-            className="w-full accent-indigo-500"
+            className="w-full accent-[var(--royal)]"
           />
           <div className="flex justify-between mt-1">
             {OPACITY_LEVELS.map((level) => (
-              <span key={level} className="text-[10px] text-slate-500">
+              <span key={level} className="text-[10px] text-[var(--text-muted)]">
                 {level}%
               </span>
             ))}
           </div>
         </div>
 
-        <p className="text-[10px] text-slate-500 leading-relaxed">
+        <p className="text-[10px] text-[var(--text-muted)] leading-relaxed">
           Image processing / masking simulation. Potential production enhancement: AI/AR-based
           face and frame segmentation.
         </p>
       </div>
-      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0">
+      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0 bg-[var(--bg-app)]">
         <PrimaryButton onClick={() => navigate("/review")}>CONTINUE</PrimaryButton>
       </div>
     </AppScreen>

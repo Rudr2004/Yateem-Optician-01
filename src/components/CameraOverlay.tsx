@@ -1,55 +1,58 @@
+import { FacePortrait } from "./FacePortrait";
+import { FACE_FRONT } from "../assets/faceImages";
+
 interface CameraOverlayProps {
   scanning?: boolean;
   frameDetected?: boolean;
   pupilsDetected?: boolean;
+  faceSrc?: string | null;
 }
 
-export function CameraOverlay({ scanning, frameDetected = true, pupilsDetected = true }: CameraOverlayProps) {
+// Landmark positions expressed as % of the container. Two calibrations:
+// one for the real photo (measured against its object-cover crop in the
+// 3:4 preview box) and one for the illustrated FacePortrait fallback.
+const PHOTO_LANDMARKS = {
+  leftPupil: { x: 37.5, y: 49.2 },
+  rightPupil: { x: 63.8, y: 49.2 },
+  face: { left: 22, top: 20, width: 56, height: 55 },
+  frame: { left: 28, top: 43.5, width: 48, height: 11 },
+};
+
+const ILLUSTRATION_LANDMARKS = {
+  leftPupil: { x: 40.7, y: 47 },
+  rightPupil: { x: 59.3, y: 47 },
+  face: { left: 20, top: 14, width: 60, height: 68 },
+  frame: { left: 30, top: 42, width: 40, height: 11 },
+};
+
+export function CameraOverlay({
+  scanning,
+  frameDetected = true,
+  pupilsDetected = true,
+  faceSrc,
+}: CameraOverlayProps) {
+  const imageSrc = faceSrc !== undefined ? faceSrc : FACE_FRONT;
+  const landmarks = imageSrc ? PHOTO_LANDMARKS : ILLUSTRATION_LANDMARKS;
+
   return (
-    <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden bg-gradient-to-b from-[#1c2333] to-[#0e1220] border border-white/10">
-      {/* Mock face illustration */}
-      <svg viewBox="0 0 300 400" className="absolute inset-0 w-full h-full">
-        <defs>
-          <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#3a3244" />
-            <stop offset="100%" stopColor="#2b2636" />
-          </linearGradient>
-        </defs>
-        {/* face */}
-        <ellipse cx="150" cy="190" rx="82" ry="105" fill="url(#skin)" />
-        {/* hair */}
-        <path d="M70 150 Q70 60 150 55 Q230 60 230 150 Q230 110 150 100 Q70 110 70 150 Z" fill="#1a1520" />
-        {/* eyes */}
-        <ellipse cx="118" cy="180" rx="13" ry="7" fill="#e8e2ea" />
-        <ellipse cx="182" cy="180" rx="13" ry="7" fill="#e8e2ea" />
-        <circle cx="118" cy="180" r="4.5" fill="#2c1810" />
-        <circle cx="182" cy="180" r="4.5" fill="#2c1810" />
-        {/* eyebrows */}
-        <path d="M104 165 Q118 159 132 164" stroke="#1a1520" strokeWidth="3" fill="none" strokeLinecap="round" />
-        <path d="M168 164 Q182 159 196 165" stroke="#1a1520" strokeWidth="3" fill="none" strokeLinecap="round" />
-        {/* nose */}
-        <path d="M150 180 L146 210 Q150 216 154 210 Z" fill="#231d2e" opacity="0.4" />
-        {/* mouth */}
-        <path d="M128 240 Q150 250 172 240" stroke="#5c3a3a" strokeWidth="3" fill="none" strokeLinecap="round" />
-        {/* frame */}
-        {frameDetected && (
-          <g stroke="#0a0e1a" strokeWidth="4" fill="rgba(20,20,30,0.25)">
-            <rect x="90" y="165" rx="10" ry="10" width="60" height="34" />
-            <rect x="150" y="165" rx="10" ry="10" width="60" height="34" />
-            <line x1="150" y1="180" x2="150" y2="180" stroke="#0a0e1a" strokeWidth="4" />
-            <path d="M150 176 Q150 180 150 184" stroke="#0a0e1a" strokeWidth="4" />
-            <path d="M90 178 L70 172" stroke="#0a0e1a" strokeWidth="4" strokeLinecap="round" />
-            <path d="M210 178 L230 172" stroke="#0a0e1a" strokeWidth="4" strokeLinecap="round" />
-          </g>
-        )}
-      </svg>
+    <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden bg-[#0d131f] border border-white/10">
+      {imageSrc ? (
+        <img src={imageSrc} alt="Customer preview" className="absolute inset-0 w-full h-full object-cover" />
+      ) : (
+        <FacePortrait className="absolute inset-0 w-full h-full" />
+      )}
 
       {/* Face bounding box */}
       <div
-        className="absolute rounded-2xl border-2 border-emerald-400/70"
-        style={{ left: "18%", top: "15%", width: "64%", height: "62%" }}
+        className="absolute rounded-2xl border-2 border-emerald-400/80"
+        style={{
+          left: `${landmarks.face.left}%`,
+          top: `${landmarks.face.top}%`,
+          width: `${landmarks.face.width}%`,
+          height: `${landmarks.face.height}%`,
+        }}
       >
-        <span className="absolute -top-5 left-0 text-[9px] font-semibold text-emerald-400 bg-black/40 px-1.5 py-0.5 rounded">
+        <span className="absolute -top-5 left-0 text-[9px] font-semibold text-emerald-300 bg-black/50 px-1.5 py-0.5 rounded">
           FACE
         </span>
       </div>
@@ -57,26 +60,38 @@ export function CameraOverlay({ scanning, frameDetected = true, pupilsDetected =
       {/* Frame bounding box */}
       {frameDetected && (
         <div
-          className="absolute rounded-lg border-2 border-indigo-400/80"
-          style={{ left: "27%", top: "40%", width: "46%", height: "12%" }}
+          className="absolute rounded-lg border-2 border-indigo-400/90"
+          style={{
+            left: `${landmarks.frame.left}%`,
+            top: `${landmarks.frame.top}%`,
+            width: `${landmarks.frame.width}%`,
+            height: `${landmarks.frame.height}%`,
+          }}
         >
-          <span className="absolute -bottom-5 left-0 text-[9px] font-semibold text-indigo-300 bg-black/40 px-1.5 py-0.5 rounded">
+          <span className="absolute -bottom-5 left-0 text-[9px] font-semibold text-indigo-300 bg-black/50 px-1.5 py-0.5 rounded">
             FRAME
           </span>
         </div>
       )}
 
-      {/* Pupil markers */}
+      {/* Pupil markers with animated crosshair */}
       {pupilsDetected && (
         <>
-          <div
-            className="absolute w-2 h-2 rounded-full bg-red-400 shadow-[0_0_8px_2px_rgba(248,113,113,0.6)]"
-            style={{ left: "38.5%", top: "44%" }}
-          />
-          <div
-            className="absolute w-2 h-2 rounded-full bg-red-400 shadow-[0_0_8px_2px_rgba(248,113,113,0.6)]"
-            style={{ left: "59.5%", top: "44%" }}
-          />
+          <PupilMarker x={landmarks.leftPupil.x} y={landmarks.leftPupil.y} />
+          <PupilMarker x={landmarks.rightPupil.x} y={landmarks.rightPupil.y} />
+          {/* Interpupillary measurement line */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none">
+            <line
+              x1={`${landmarks.leftPupil.x}%`}
+              y1={`${landmarks.leftPupil.y}%`}
+              x2={`${landmarks.rightPupil.x}%`}
+              y2={`${landmarks.rightPupil.y}%`}
+              stroke="#fbbf24"
+              strokeWidth="1.5"
+              strokeDasharray="4 3"
+              opacity="0.8"
+            />
+          </svg>
         </>
       )}
 
@@ -88,7 +103,7 @@ export function CameraOverlay({ scanning, frameDetected = true, pupilsDetected =
       {/* Scan line animation */}
       {scanning && (
         <div className="absolute inset-x-0 top-0 bottom-0 overflow-hidden">
-          <div className="absolute left-0 right-0 h-16 bg-gradient-to-b from-transparent via-indigo-400/25 to-transparent animate-scanline" />
+          <div className="absolute left-0 right-0 h-16 bg-gradient-to-b from-transparent via-cyan-300/30 to-transparent animate-scanline" />
         </div>
       )}
 
@@ -96,7 +111,7 @@ export function CameraOverlay({ scanning, frameDetected = true, pupilsDetected =
       {["top-3 left-3", "top-3 right-3", "bottom-3 left-3", "bottom-3 right-3"].map((pos, i) => (
         <div
           key={i}
-          className={`absolute ${pos} w-5 h-5 border-indigo-300/50 ${
+          className={`absolute ${pos} w-5 h-5 border-white/40 ${
             i === 0
               ? "border-t-2 border-l-2 rounded-tl-lg"
               : i === 1
@@ -107,6 +122,22 @@ export function CameraOverlay({ scanning, frameDetected = true, pupilsDetected =
           }`}
         />
       ))}
+    </div>
+  );
+}
+
+function PupilMarker({ x, y }: { x: number; y: number }) {
+  return (
+    <div
+      className="absolute -translate-x-1/2 -translate-y-1/2"
+      style={{ left: `${x}%`, top: `${y}%` }}
+    >
+      <div className="relative w-8 h-8 flex items-center justify-center">
+        <span className="absolute inset-0 rounded-full border border-amber-300/70 animate-crosshair" />
+        <span className="absolute w-full h-px bg-amber-300/60" />
+        <span className="absolute h-full w-px bg-amber-300/60" />
+        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_2px_rgba(251,191,36,0.7)]" />
+      </div>
     </div>
   );
 }

@@ -19,5 +19,5 @@ export function ScreenContainer({ children, className = "", noPadding }: ScreenC
 }
 
 export function AppScreen({ children }: { children: ReactNode }) {
-  return <div className="w-full h-full flex flex-col">{children}</div>;
+  return <div className="w-full h-full flex flex-col bg-[var(--bg-app)]">{children}</div>;
 }

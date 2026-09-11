@@ -10,33 +10,51 @@ export const MOCK_CUSTOMER: Customer = {
 export const MOCK_FRAMES: Frame[] = [
   {
     id: "yt-classic-101",
+    frameCode: "YT-R101",
     name: "YT Classic 101",
     rimType: "Full Rim",
     material: "Metal",
     frameA: 52,
     frameB: 40,
     dbl: 18,
-    color: "#2b3a55",
+    color: "#5b6472",
+    shape: "round",
   },
   {
     id: "yt-modern-204",
+    frameCode: "YT-R202",
     name: "YT Modern 204",
     rimType: "Full Rim",
     material: "Acetate",
     frameA: 54,
     frameB: 42,
     dbl: 18,
-    color: "#4b3621",
+    color: "#1c2333",
+    shape: "rectangle",
   },
   {
     id: "yt-air-305",
+    frameCode: "YT-R305",
     name: "YT Air 305",
     rimType: "Semi Rimless",
-    material: "Metal",
+    material: "Titanium",
     frameA: 51,
     frameB: 39,
     dbl: 19,
-    color: "#5c6472",
+    color: "#8a93a3",
+    shape: "round",
+  },
+  {
+    id: "yt-urban-402",
+    frameCode: "YT-R402",
+    name: "YT Urban 402",
+    rimType: "Full Rim",
+    material: "Acetate",
+    frameA: 53,
+    frameB: 44,
+    dbl: 17,
+    color: "#7a3b28",
+    shape: "cat-eye",
   },
 ];
 
@@ -232,3 +250,22 @@ export const CAMERA_INSTRUCTIONS = [
   "Frame alignment detected.",
   "Ready to capture.",
 ];
+
+export const MEASUREMENT_DEFINITIONS: Record<string, string> = {
+  "monocular-pd":
+    "Distance from center of pupil to center of the bridge/facial midline, measured separately per eye.",
+  "near-pd": "Monocular or binocular PD measured at the intended reading distance (convergence-adjusted).",
+  "fitting-height":
+    "Vertical distance from the lowest point of the frame's inner rim to the center of the pupil, with the wearer in natural posture.",
+  "pantoscopic-tilt":
+    "Angle between the spectacle plane and the vertical facial plane (frame front tilted forward at the bottom).",
+  "wrap-angle":
+    "Horizontal curvature angle of the frame front relative to the wearer's face, measured in the frontal plane.",
+  bvd: "Distance from the back surface of the lens to the front surface of the cornea.",
+  "lens-diameter": "Effective/minimum diameter of the lens blank required to glaze the chosen frame.",
+  "reading-distance":
+    "Habitual distance from eye to reading material/task, used to compute near-vision PD and add power needs.",
+  "frame-a": "Horizontal width of the lens shape at its widest point (boxing system).",
+  "frame-b": "Vertical height of the lens shape at its tallest point (boxing system).",
+  "frame-c-dbl": "Distance between the two lens shapes across the bridge (boxing system).",
+};

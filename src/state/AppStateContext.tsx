@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import type {
   AppState,
+  Customer,
   Frame,
   LensType,
   CoatingKey,
@@ -34,6 +35,7 @@ function initialState(): AppState {
 
 interface AppStateContextValue {
   state: AppState;
+  updateCustomer: (patch: Partial<Customer>) => void;
   setFrame: (frame: Frame) => void;
   setMeasurementStatus: (status: AppState["measurementStatus"]) => void;
   setAiScanProgress: (progress: number) => void;
@@ -52,6 +54,10 @@ const AppStateContext = createContext<AppStateContextValue | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AppState>(initialState());
+
+  const updateCustomer = useCallback((patch: Partial<Customer>) => {
+    setState((s) => ({ ...s, customer: { ...s.customer, ...patch } }));
+  }, []);
 
   const setFrame = useCallback((frame: Frame) => {
     setState((s) => ({ ...s, selectedFrame: frame }));
@@ -162,6 +168,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     <AppStateContext.Provider
       value={{
         state,
+        updateCustomer,
         setFrame,
         setMeasurementStatus,
         setAiScanProgress,

@@ -22,16 +22,16 @@ function NumberField({
 }) {
   return (
     <div>
-      <div className="text-[11px] text-slate-400 mb-1">{label}</div>
-      <div className="flex items-center bg-white/[0.04] border border-white/8 rounded-xl overflow-hidden">
+      <div className="text-[11px] text-[var(--text-muted)] mb-1">{label}</div>
+      <div className="flex items-center bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-xl overflow-hidden shadow-sm">
         <input
           type="number"
           step={step}
           value={value}
           onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
-          className="flex-1 bg-transparent text-white text-[14px] font-semibold px-3 py-2.5 outline-none"
+          className="flex-1 bg-transparent text-[var(--text-primary)] text-[14px] font-semibold px-3 py-2.5 outline-none"
         />
-        {unit && <span className="text-[11px] text-slate-500 pr-3">{unit}</span>}
+        {unit && <span className="text-[11px] text-[var(--text-muted)] pr-3">{unit}</span>}
       </div>
     </div>
   );
@@ -49,11 +49,11 @@ export function ThicknessScreen() {
 
   return (
     <AppScreen>
-      <MobileHeader title="Lens Thickness Estimator" showBack />
+      <MobileHeader title="Lens Thickness Estimator" showBack light />
       <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-4 animate-fade-slide-up">
-        <div className="flex items-center gap-2 bg-white/[0.04] border border-white/8 rounded-xl px-3 py-2">
-          <Calculator size={14} className="text-slate-400" />
-          <span className="text-[11px] text-slate-400 font-medium">Rule / Formula-Based Calculation</span>
+        <div className="flex items-center gap-2 bg-blue-50 border border-[var(--royal)]/15 rounded-xl px-3 py-2">
+          <Calculator size={14} className="text-[var(--royal)]" />
+          <span className="text-[11px] text-[var(--royal)] font-semibold">Rule / Formula-Based Calculation</span>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
@@ -66,16 +66,16 @@ export function ThicknessScreen() {
         </div>
 
         <div>
-          <div className="text-[11px] text-slate-400 mb-2">Lens Index</div>
+          <div className="text-[11px] text-[var(--text-muted)] mb-2">Lens Index</div>
           <div className="flex gap-2">
             {LENS_INDEX_OPTIONS.map((idx) => (
               <button
                 key={idx}
                 onClick={() => setThicknessInputs({ lensIndex: idx })}
-                className={`flex-1 py-2.5 rounded-xl text-[13px] font-semibold border ${
+                className={`flex-1 py-2.5 rounded-xl text-[13px] font-semibold border transition-colors ${
                   inputs.lensIndex === idx
-                    ? "bg-indigo-500/20 border-indigo-400/50 text-indigo-200"
-                    : "bg-white/[0.04] border-white/8 text-slate-300"
+                    ? "bg-[var(--royal)] border-[var(--royal)] text-white"
+                    : "bg-[var(--bg-card)] border-[var(--border-soft)] text-[var(--text-secondary)]"
                 }`}
               >
                 {idx}
@@ -85,36 +85,36 @@ export function ThicknessScreen() {
         </div>
 
         {state.thicknessEstimate && (
-          <div className="bg-gradient-to-br from-indigo-600/15 to-[#0d1120] border border-indigo-500/20 rounded-2xl p-4 space-y-3">
+          <div className="bg-gradient-to-br from-[var(--navy)] to-[var(--navy-deep)] rounded-2xl p-4 space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <div className="text-[11px] text-slate-400">Est. Center Thickness</div>
+                <div className="text-[11px] text-blue-200/70">Est. Center Thickness</div>
                 <div className="text-[20px] font-bold text-white">
                   {state.thicknessEstimate.centerThickness.toFixed(1)} mm
                 </div>
               </div>
               <div>
-                <div className="text-[11px] text-slate-400">Est. Edge Thickness</div>
+                <div className="text-[11px] text-blue-200/70">Est. Edge Thickness</div>
                 <div className="text-[20px] font-bold text-white">
                   {state.thicknessEstimate.edgeThickness.toFixed(1)} mm
                 </div>
               </div>
             </div>
-            <div className="pt-2 border-t border-white/10">
-              <div className="text-[11px] text-slate-400">Recommendation</div>
-              <div className="text-[14px] font-semibold text-indigo-300">
+            <div className="pt-2 border-t border-white/15">
+              <div className="text-[11px] text-blue-200/70">Recommendation</div>
+              <div className="text-[14px] font-semibold text-blue-200">
                 {state.thicknessEstimate.recommendedIndex} Index
               </div>
             </div>
           </div>
         )}
 
-        <p className="text-[10px] text-slate-500 leading-relaxed">
+        <p className="text-[10px] text-[var(--text-muted)] leading-relaxed">
           Calculated using optical estimation rules. Estimate only. Final thickness is
           determined by laboratory calculations.
         </p>
       </div>
-      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0">
+      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0 bg-[var(--bg-app)]">
         <PrimaryButton onClick={() => navigate("/tint")}>CONTINUE</PrimaryButton>
       </div>
     </AppScreen>

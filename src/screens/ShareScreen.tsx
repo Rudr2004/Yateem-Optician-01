@@ -18,13 +18,13 @@ export function ShareScreen() {
 
   return (
     <AppScreen>
-      <MobileHeader title="Share Report" showBack />
+      <MobileHeader title="Share Report" showBack light />
       <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-4 animate-fade-slide-up">
-        <div className="bg-emerald-500/[0.08] border border-emerald-500/20 rounded-2xl p-4 flex items-center gap-3">
-          <CheckCircle2 size={20} className="text-emerald-400 flex-shrink-0" />
+        <div className="bg-[var(--success-bg)] border border-[var(--success)]/20 rounded-2xl p-4 flex items-center gap-3">
+          <CheckCircle2 size={20} className="text-[var(--success)] flex-shrink-0" />
           <div>
-            <div className="text-[13px] font-semibold text-emerald-400">Report Ready</div>
-            <div className="text-[11px] text-slate-400">
+            <div className="text-[13px] font-bold text-[var(--success)]">Report Ready</div>
+            <div className="text-[11px] text-[var(--text-secondary)]">
               Measurement report prepared successfully.
             </div>
           </div>
@@ -35,17 +35,17 @@ export function ShareScreen() {
             <button
               key={key}
               onClick={() => showToast(`${label} sent successfully`)}
-              className="flex flex-col items-center gap-2 bg-white/[0.04] border border-white/8 rounded-2xl p-5 active:bg-white/[0.06]"
+              className="flex flex-col items-center gap-2 bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-5 active:bg-[var(--bg-subtle)] shadow-sm"
             >
-              <div className="w-11 h-11 rounded-full bg-indigo-500/15 flex items-center justify-center">
-                <Icon size={19} className="text-indigo-300" />
+              <div className="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center">
+                <Icon size={19} className="text-[var(--royal)]" />
               </div>
-              <span className="text-[12px] font-medium text-white">{label}</span>
+              <span className="text-[12px] font-semibold text-[var(--text-primary)]">{label}</span>
             </button>
           ))}
         </div>
       </div>
-      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0">
+      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0 bg-[var(--bg-app)]">
         <PrimaryButton onClick={() => navigate("/success")}>DONE</PrimaryButton>
       </div>
     </AppScreen>

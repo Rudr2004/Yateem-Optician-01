@@ -1,13 +1,15 @@
 export function ProgressIndicator({ progress }: { progress: number }) {
   return (
     <div className="w-full">
-      <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+      <div className="w-full h-2 bg-[var(--bg-subtle)] rounded-full overflow-hidden">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-blue-400 transition-all duration-300 ease-out"
+          className="h-full rounded-full bg-gradient-to-r from-[var(--royal)] to-[var(--accent)] transition-all duration-300 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
-      <div className="text-right text-[11px] text-slate-400 mt-1 font-medium">{Math.round(progress)}%</div>
+      <div className="text-right text-[11px] text-[var(--text-secondary)] mt-1 font-semibold">
+        {Math.round(progress)}%
+      </div>
     </div>
   );
 }
@@ -20,10 +22,10 @@ export function StepDots({ total, current }: { total: number; current: number })
           key={i}
           className={`h-1.5 rounded-full transition-all ${
             i === current
-              ? "w-5 bg-indigo-400"
+              ? "w-5 bg-[var(--royal)]"
               : i < current
-              ? "w-1.5 bg-indigo-400/50"
-              : "w-1.5 bg-white/10"
+              ? "w-1.5 bg-[var(--royal)]/40"
+              : "w-1.5 bg-[var(--border-soft)]"
           }`}
         />
       ))}

@@ -10,7 +10,7 @@ export function MobileDeviceFrame({ children }: { children: ReactNode }) {
           height: "min(844px, 92vh)",
         }}
       >
-        <div className="app-phone-screen relative w-full h-full rounded-[32px] bg-[#0a0e1a] overflow-hidden">
+        <div className="app-phone-screen relative w-full h-full rounded-[32px] bg-[var(--bg-app)] overflow-hidden">
           <div className="app-dynamic-island absolute top-[10px] left-1/2 -translate-x-1/2 w-[100px] h-[26px] bg-black rounded-full z-50" />
           <div className="w-full h-full overflow-hidden relative">{children}</div>
         </div>
@@ -18,14 +18,14 @@ export function MobileDeviceFrame({ children }: { children: ReactNode }) {
 
       <style>{`
         @media (max-width: 480px) {
-          .app-desktop-bg { background: #0a0e1a !important; }
+          .app-desktop-bg { background: var(--bg-app) !important; }
           .app-phone-frame {
             width: 100vw !important;
             height: 100vh !important;
             border-radius: 0 !important;
             box-shadow: none !important;
             padding: 0 !important;
-            background: #0a0e1a !important;
+            background: var(--bg-app) !important;
           }
           .app-phone-screen { border-radius: 0 !important; }
           .app-dynamic-island { display: none !important; }

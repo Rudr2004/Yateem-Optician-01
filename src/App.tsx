@@ -24,9 +24,9 @@ import { MoreScreen } from "./screens/MoreScreen";
 function App() {
   return (
     <AppStateProvider>
-      <ToastProvider>
-        <HashRouter>
-          <MobileDeviceFrame>
+      <HashRouter>
+        <MobileDeviceFrame>
+          <ToastProvider>
             <Routes>
               <Route path="/" element={<HomeScreen />} />
               <Route path="/customer" element={<CustomerDetailsScreen />} />
@@ -47,9 +47,9 @@ function App() {
               <Route path="/more" element={<MoreScreen />} />
               <Route path="*" element={<HomeScreen />} />
             </Routes>
-          </MobileDeviceFrame>
-        </HashRouter>
-      </ToastProvider>
+          </ToastProvider>
+        </MobileDeviceFrame>
+      </HashRouter>
     </AppStateProvider>
   );
 }

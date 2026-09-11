@@ -4,7 +4,6 @@ import { CheckCircle2, Circle, Loader2 } from "lucide-react";
 import { AppScreen } from "../components/ScreenContainer";
 import { MobileHeader } from "../components/MobileHeader";
 import { CameraOverlay } from "../components/CameraOverlay";
-import { ProgressIndicator } from "../components/ProgressIndicator";
 import { SCANNING_STEPS } from "../mockData";
 import { useAppState } from "../state/AppStateContext";
 
@@ -50,12 +49,22 @@ export function ScanningScreen() {
   return (
     <AppScreen>
       <MobileHeader title="Analyzing Frame" />
-      <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-4 animate-fade-slide-up">
+      <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-4 animate-fade-slide-up bg-[#05070d]">
         <CameraOverlay scanning />
 
-        <ProgressIndicator progress={progress} />
+        <div className="w-full">
+          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 ease-out"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <div className="text-right text-[11px] text-slate-400 mt-1 font-semibold">
+            {Math.round(progress)}%
+          </div>
+        </div>
 
-        <div className="bg-white/[0.04] border border-white/8 rounded-2xl p-4 space-y-2.5">
+        <div className="bg-white/[0.05] border border-white/10 rounded-2xl p-4 space-y-2.5">
           {SCANNING_STEPS.map((step, i) => {
             const state = i < stepIndex ? "done" : i === stepIndex ? "active" : "waiting";
             return (
@@ -73,7 +82,7 @@ export function ScanningScreen() {
                   </span>
                 )}
                 {state === "active" && (
-                  <span className="flex items-center gap-1 text-indigo-300 text-[11px] font-semibold">
+                  <span className="flex items-center gap-1 text-blue-300 text-[11px] font-semibold">
                     <Loader2 size={13} className="animate-spin" /> Processing
                   </span>
                 )}

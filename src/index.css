@@ -4,14 +4,36 @@
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
+:root {
+  --navy: #0f2557;
+  --navy-deep: #0a1a3d;
+  --royal: #1e40af;
+  --royal-light: #2f5bd0;
+  --accent: #3b6fe0;
+  --bg-app: #eef1f6;
+  --bg-card: #ffffff;
+  --bg-subtle: #f4f6fa;
+  --border-soft: #e4e8f0;
+  --text-primary: #101828;
+  --text-secondary: #5b6472;
+  --text-muted: #8a93a3;
+  --success: #16a34a;
+  --success-bg: #eafaf0;
+  --warning: #d97706;
+  --warning-bg: #fff7ea;
+  --danger: #dc2626;
+  --danger-bg: #fdecec;
+}
+
 * {
   -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
 }
 
 html, body {
   margin: 0;
   padding: 0;
-  background: #0a0e1a;
+  background: #05070d;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
@@ -56,9 +78,33 @@ html, body {
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(30, 64, 175, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(30, 64, 175, 0); }
 }
 .animate-glow-pulse {
   animation: glow-pulse 2s ease-out infinite;
+}
+
+@keyframes pupil-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  96% { transform: scaleY(0.1); }
+}
+.animate-blink {
+  animation: pupil-blink 4.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes crosshair-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+.animate-crosshair {
+  animation: crosshair-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes dash-rotate {
+  to { stroke-dashoffset: -100; }
+}
+.animate-dash {
+  animation: dash-rotate 3s linear infinite;
 }

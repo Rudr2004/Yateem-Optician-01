@@ -12,10 +12,10 @@ export function ResultCard({
   className?: string;
 }) {
   return (
-    <div className={`bg-white/[0.04] border border-white/8 rounded-2xl p-4 ${className}`}>
+    <div className={`bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-4 shadow-sm ${className}`}>
       {title && (
         <div className="flex items-center justify-between mb-2.5">
-          <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">
+          <div className="text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-wide">
             {title}
           </div>
           {right}

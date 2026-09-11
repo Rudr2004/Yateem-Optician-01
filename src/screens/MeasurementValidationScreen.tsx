@@ -28,9 +28,9 @@ function ValidationRow({
       : `${m.technicianSingle} ${m.unit}`;
 
   return (
-    <div className="bg-white/[0.04] border border-white/8 rounded-2xl p-4">
+    <div className="bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-4 shadow-sm">
       <div className="flex items-center justify-between mb-2.5">
-        <span className="text-[13px] font-semibold text-white">{m.name}</span>
+        <span className="text-[13px] font-semibold text-[var(--text-primary)]">{m.name}</span>
         {m.validation === "accepted" && <StatusBadge variant="ok">Accepted</StatusBadge>}
         {m.validation === "edited" && <StatusBadge variant="processing">Edited</StatusBadge>}
         {m.validation === "rejected" && <StatusBadge variant="review">Rejected</StatusBadge>}
@@ -38,11 +38,11 @@ function ValidationRow({
       </div>
       <div className="grid grid-cols-2 gap-3 mb-3">
         <div>
-          <div className="text-[10px] text-slate-400 mb-0.5">AI</div>
-          <div className="text-[14px] font-semibold text-slate-200">{aiValue}</div>
+          <div className="text-[10px] text-[var(--text-muted)] mb-0.5">AI</div>
+          <div className="text-[14px] font-semibold text-[var(--text-secondary)]">{aiValue}</div>
         </div>
         <div>
-          <div className="text-[10px] text-slate-400 mb-0.5">Technician</div>
+          <div className="text-[10px] text-[var(--text-muted)] mb-0.5">Technician</div>
           {editing ? (
             <input
               autoFocus
@@ -52,29 +52,29 @@ function ValidationRow({
                 onEdit(parseFloat(e.target.value));
                 setEditing(false);
               }}
-              className="w-full bg-white/10 text-white text-[14px] font-semibold rounded-lg px-2 py-1 border border-indigo-400/40 outline-none"
+              className="w-full bg-[var(--bg-subtle)] text-[var(--text-primary)] text-[14px] font-semibold rounded-lg px-2 py-1 border border-[var(--royal)]/40 outline-none"
             />
           ) : (
-            <div className="text-[14px] font-semibold text-white">{techValue}</div>
+            <div className="text-[14px] font-semibold text-[var(--text-primary)]">{techValue}</div>
           )}
         </div>
       </div>
       <div className="flex items-center gap-2">
         <button
           onClick={onAccept}
-          className="flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg py-2 active:bg-emerald-500/20"
+          className="flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold text-[var(--success)] bg-[var(--success-bg)] border border-[var(--success)]/20 rounded-lg py-2 active:opacity-80"
         >
           <Check size={12} /> Accept
         </button>
         <button
           onClick={() => setEditing(true)}
-          className="flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 rounded-lg py-2 active:bg-indigo-500/20"
+          className="flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold text-[var(--royal)] bg-blue-50 border border-[var(--royal)]/20 rounded-lg py-2 active:opacity-80"
         >
           <Pencil size={12} /> Edit
         </button>
         <button
           onClick={onReject}
-          className="flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg py-2 active:bg-red-500/20"
+          className="flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold text-[var(--danger)] bg-[var(--danger-bg)] border border-[var(--danger)]/20 rounded-lg py-2 active:opacity-80"
         >
           <X size={12} /> Reject
         </button>
@@ -89,9 +89,11 @@ export function MeasurementValidationScreen() {
 
   return (
     <AppScreen>
-      <MobileHeader title="Measurement Validation" showBack />
+      <MobileHeader title="Measurement Validation" subtitle="Step 6 of 7" showBack light />
       <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-3 animate-fade-slide-up">
-        <p className="text-[12px] text-slate-400">AI Detected Measurements vs. Technician Review</p>
+        <p className="text-[12px] text-[var(--text-secondary)]">
+          AI Detected Measurements vs. Technician Review
+        </p>
 
         {state.measurements.map((m) => (
           <ValidationRow
@@ -109,7 +111,7 @@ export function MeasurementValidationScreen() {
           />
         ))}
       </div>
-      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0 space-y-2">
+      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0 space-y-2 bg-[var(--bg-app)]">
         <SecondaryButton onClick={acceptAllMeasurements}>ACCEPT ALL</SecondaryButton>
         <PrimaryButton onClick={() => navigate("/lens")}>CONTINUE</PrimaryButton>
       </div>
