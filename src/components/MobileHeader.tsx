@@ -1,5 +1,6 @@
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Logo } from "./Logo";
 
 interface MobileHeaderProps {
   title?: string;
@@ -19,8 +20,8 @@ export function MobileHeader({ title, subtitle, showBack, onBack, brand, right, 
       <div className="px-5 pt-[46px] pb-4 bg-gradient-to-b from-[var(--navy)] to-[var(--navy-deep)] flex-shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center flex-shrink-0">
-              <span className="text-white font-bold text-[13px] tracking-tight">YO</span>
+            <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center flex-shrink-0 text-white">
+              <Logo size={22} />
             </div>
             <div>
               <div className="text-[10px] tracking-[0.18em] text-blue-200/80 font-semibold uppercase">
