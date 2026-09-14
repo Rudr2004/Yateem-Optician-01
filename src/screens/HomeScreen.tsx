@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ChevronRight, Camera, Clock, Tag, TrendingUp } from "lucide-react";
+import { ChevronRight, Camera, Clock, TrendingUp } from "lucide-react";
 import { AppScreen } from "../components/ScreenContainer";
 import { MobileHeader } from "../components/MobileHeader";
 import { BottomNavigation } from "../components/BottomNavigation";
@@ -28,26 +28,35 @@ export function HomeScreen() {
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-4 shadow-sm">
+          <button
+            onClick={() => navigate("/measure/recent?status=today")}
+            className="text-left bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-4 shadow-sm active:bg-[var(--bg-subtle)]"
+          >
             <div className="text-[11px] text-[var(--text-muted)] mb-1">Today's Measurements</div>
             <div className="text-2xl font-bold text-[var(--text-primary)]">12</div>
-          </div>
-          <div className="bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-4 shadow-sm">
+          </button>
+          <button
+            onClick={() => navigate("/measure/recent?status=completed")}
+            className="text-left bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-4 shadow-sm active:bg-[var(--bg-subtle)]"
+          >
             <div className="text-[11px] text-[var(--text-muted)] mb-1">Completed</div>
             <div className="text-2xl font-bold text-[var(--success)]">9</div>
-          </div>
+          </button>
         </div>
-        <div className="bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-4 shadow-sm">
+        <button
+          onClick={() => navigate("/measure/recent?status=pending")}
+          className="w-full text-left bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-4 shadow-sm active:bg-[var(--bg-subtle)]"
+        >
           <div className="text-[11px] text-[var(--text-muted)] mb-1">Pending</div>
           <div className="text-2xl font-bold text-[var(--warning)]">3</div>
-        </div>
+        </button>
 
         <div className="space-y-2.5">
           <button
-            onClick={() => navigate("/measure/results")}
+            onClick={() => navigate("/measure/recent?status=all")}
             className="w-full flex items-center gap-3 bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-4 active:bg-[var(--bg-subtle)] shadow-sm"
           >
-            <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-[var(--royal)]/10 flex items-center justify-center flex-shrink-0">
               <Clock size={16} className="text-[var(--royal)]" />
             </div>
             <div className="flex-1 text-left">
@@ -58,10 +67,10 @@ export function HomeScreen() {
           </button>
 
           <button
-            onClick={() => navigate("/measure/results")}
+            onClick={() => navigate("/measure/recent?status=today")}
             className="w-full flex items-center gap-3 bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-4 active:bg-[var(--bg-subtle)] shadow-sm"
           >
-            <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-[var(--success)]/10 flex items-center justify-center flex-shrink-0">
               <TrendingUp size={16} className="text-[var(--success)]" />
             </div>
             <div className="flex-1 text-left">
@@ -71,7 +80,7 @@ export function HomeScreen() {
             <ChevronRight size={16} className="text-[var(--text-muted)]" />
           </button>
 
-          <button
+          {/* <button
             onClick={() => navigate("/frame-selection")}
             className="w-full flex items-center gap-3 bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-4 active:bg-[var(--bg-subtle)] shadow-sm"
           >
@@ -83,7 +92,7 @@ export function HomeScreen() {
               <div className="text-[11px] text-[var(--text-muted)]">Browse frame catalog</div>
             </div>
             <ChevronRight size={16} className="text-[var(--text-muted)]" />
-          </button>
+          </button> */}
         </div>
       </div>
       <BottomNavigation />

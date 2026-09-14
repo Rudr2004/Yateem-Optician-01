@@ -58,6 +58,33 @@ export const MOCK_FRAMES: Frame[] = [
   },
 ];
 
+export type FittingStatus = "completed" | "pending";
+
+export interface RecentFitting {
+  id: string;
+  customerName: string;
+  customerId: string;
+  frameName: string;
+  status: FittingStatus;
+  date: string;
+  time: string;
+}
+
+// Dummy fitting records for the Home screen's stat cards and list items.
+// "Recent Measurements" shows every record here (spanning today and
+// yesterday); "Today's Measurements" / "Completed" / "Pending" filter by
+// date/status.
+export const RECENT_FITTINGS: RecentFitting[] = [
+  { id: "f1", customerName: "Sarah Ahmed", customerId: "YT-2026-00124", frameName: "YT Classic 101", status: "completed", date: "Today", time: "10:24 AM" },
+  { id: "f2", customerName: "Omar Al Farsi", customerId: "YT-2026-00125", frameName: "YT Modern 204", status: "completed", date: "Today", time: "10:52 AM" },
+  { id: "f3", customerName: "Layla Hassan", customerId: "YT-2026-00126", frameName: "YT Air 305", status: "completed", date: "Today", time: "11:15 AM" },
+  { id: "f4", customerName: "Yousef Nasser", customerId: "YT-2026-00127", frameName: "YT Urban 402", status: "pending", date: "Today", time: "11:40 AM" },
+  { id: "f5", customerName: "Fatima Al Zaabi", customerId: "YT-2026-00128", frameName: "YT Classic 101", status: "pending", date: "Today", time: "12:05 PM" },
+  { id: "f6", customerName: "Khalid Rahman", customerId: "YT-2026-00129", frameName: "YT Modern 204", status: "pending", date: "Today", time: "12:30 PM" },
+  { id: "f7", customerName: "Mariam Saeed", customerId: "YT-2026-00122", frameName: "YT Air 305", status: "completed", date: "Yesterday", time: "3:10 PM" },
+  { id: "f8", customerName: "Ahmed Bin Rashid", customerId: "YT-2026-00123", frameName: "YT Urban 402", status: "completed", date: "Yesterday", time: "4:45 PM" },
+];
+
 export const DEFAULT_MEASUREMENTS: MeasurementValue[] = [
   {
     key: "monocular-pd",

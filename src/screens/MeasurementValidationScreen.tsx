@@ -68,7 +68,7 @@ function ValidationRow({
         </button>
         <button
           onClick={() => setEditing(true)}
-          className="flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold text-[var(--royal)] bg-blue-50 border border-[var(--royal)]/20 rounded-lg py-2 active:opacity-80"
+          className="flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold text-[var(--royal)] bg-[var(--royal)]/10 border border-[var(--royal)]/20 rounded-lg py-2 active:opacity-80"
         >
           <Pencil size={12} /> Edit
         </button>
