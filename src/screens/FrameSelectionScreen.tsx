@@ -8,6 +8,7 @@ import { StatusBadge } from "../components/StatusBadge";
 import { FrameIllustration } from "../components/FrameIllustration";
 import { useAppState } from "../state/AppStateContext";
 import { MOCK_FRAMES } from "../mockData";
+import { FRAME_IMAGES } from "../assets/frameImages";
 
 const RIM_FILTERS = ["All", "Full Rim", "Semi Rimless"] as const;
 
@@ -69,13 +70,21 @@ export function FrameSelectionScreen() {
                   selected ? "border-[var(--royal)] ring-1 ring-[var(--royal)]/25" : "border-[var(--border-soft)]"
                 }`}
               >
-                <div className="w-full aspect-[16/8] rounded-xl bg-[var(--bg-subtle)] flex items-center justify-center mb-3 p-3">
-                  <FrameIllustration
-                    shape={frame.shape}
-                    color={frame.color}
-                    material={frame.material}
-                    className="w-full h-full"
-                  />
+                <div className="w-full aspect-[16/8] rounded-xl bg-white flex items-center justify-center mb-3 p-3">
+                  {FRAME_IMAGES[frame.id] ? (
+                    <img
+                      src={FRAME_IMAGES[frame.id]!}
+                      alt={frame.name}
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <FrameIllustration
+                      shape={frame.shape}
+                      color={frame.color}
+                      material={frame.material}
+                      className="w-full h-full"
+                    />
+                  )}
                 </div>
                 <div className="flex items-center justify-between mb-0.5">
                   <div className="text-[15px] font-bold text-[var(--text-primary)]">{frame.name}</div>
