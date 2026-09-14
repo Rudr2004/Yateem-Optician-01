@@ -2,9 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
 import { AppScreen } from "../components/ScreenContainer";
 import { MobileHeader } from "../components/MobileHeader";
-import { PrimaryButton, SecondaryButton } from "../components/Buttons";
+import { PrimaryButton } from "../components/Buttons";
 import { ResultCard } from "../components/ResultCard";
-import { GhostButton } from "../components/Buttons";
 import { useAppState } from "../state/AppStateContext";
 
 export function FinalReviewScreen() {
@@ -15,18 +14,12 @@ export function FinalReviewScreen() {
     <AppScreen>
       <MobileHeader title="Final Review" showBack light />
       <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-3 animate-fade-slide-up">
-        <ResultCard
-          title="Customer"
-          right={<GhostButton onClick={() => navigate("/customer")}>EDIT</GhostButton>}
-        >
+        <ResultCard title="Customer">
           <div className="text-[14px] font-semibold text-[var(--text-primary)]">{state.customer.name}</div>
           <div className="text-[11px] text-[var(--text-muted)]">{state.customer.customerId}</div>
         </ResultCard>
 
-        <ResultCard
-          title="Frame"
-          right={<GhostButton onClick={() => navigate("/frame-selection")}>EDIT</GhostButton>}
-        >
+        <ResultCard title="Frame">
           <div className="text-[14px] font-semibold text-[var(--text-primary)]">
             {state.selectedFrame?.name}
           </div>
@@ -36,12 +29,9 @@ export function FinalReviewScreen() {
           </div>
         </ResultCard>
 
-        <ResultCard
-          title="AI Measurements"
-          right={<GhostButton onClick={() => navigate("/measure/validation")}>EDIT</GhostButton>}
-        >
+        <ResultCard title="AI Measurements">
           <div className="grid grid-cols-2 gap-y-1.5 text-[12px] text-[var(--text-secondary)]">
-            {state.measurements.slice(0, 6).map((m) => (
+            {state.measurements.map((m) => (
               <span key={m.key}>
                 {m.name}:{" "}
                 <span className="text-[var(--text-primary)] font-medium">
@@ -53,31 +43,80 @@ export function FinalReviewScreen() {
           </div>
         </ResultCard>
 
-        <ResultCard title="Lens" right={<GhostButton onClick={() => navigate("/lens")}>EDIT</GhostButton>}>
-          <div className="text-[14px] font-semibold text-[var(--text-primary)]">{state.lensType}</div>
-        </ResultCard>
-
-        <ResultCard
-          title="Coatings"
-          right={<GhostButton onClick={() => navigate("/coatings")}>EDIT</GhostButton>}
-        >
-          <div className="text-[13px] text-[var(--text-secondary)]">
-            {state.coatings.length ? state.coatings.join(", ") : "None selected"}
+        <ResultCard title="Lens">
+          <div className="text-[14px] font-semibold text-[var(--text-primary)]">
+            {state.lensType ?? "Not selected"}
+          </div>
+          <div className="text-[11px] text-[var(--text-muted)] mt-0.5">
+            Index {state.lensIndex}
           </div>
         </ResultCard>
 
-        <ResultCard
-          title="Thickness"
-          right={<GhostButton onClick={() => navigate("/thickness")}>EDIT</GhostButton>}
-        >
-          <div className="text-[13px] text-[var(--text-secondary)]">
-            {state.thicknessEstimate
-              ? `${state.thicknessEstimate.centerThickness.toFixed(1)}mm center / ${state.thicknessEstimate.edgeThickness.toFixed(1)}mm edge`
-              : "Not calculated"}
-          </div>
+        <ResultCard title="Coatings">
+          {state.coatings.length ? (
+            <div className="flex flex-wrap gap-1.5">
+              {state.coatings.map((c) => (
+                <span
+                  key={c}
+                  className="text-[11px] font-medium text-[var(--royal)] bg-blue-50 border border-[var(--royal)]/15 rounded-full px-2.5 py-1"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <div className="text-[13px] text-[var(--text-secondary)]">None selected</div>
+          )}
         </ResultCard>
 
-        <ResultCard title="Tint" right={<GhostButton onClick={() => navigate("/tint")}>EDIT</GhostButton>}>
+        <ResultCard title="Thickness">
+          {state.thicknessEstimate ? (
+            <>
+              <div className="grid grid-cols-2 gap-y-1.5 text-[12px] text-[var(--text-secondary)]">
+                <span>
+                  Center:{" "}
+                  <span className="text-[var(--text-primary)] font-medium">
+                    {state.thicknessEstimate.centerThickness.toFixed(1)}mm
+                  </span>
+                </span>
+                <span>
+                  Edge:{" "}
+                  <span className="text-[var(--text-primary)] font-medium">
+                    {state.thicknessEstimate.edgeThickness.toFixed(1)}mm
+                  </span>
+                </span>
+                <span>
+                  Sphere:{" "}
+                  <span className="text-[var(--text-primary)] font-medium">
+                    {state.thicknessInputs.sphere}D
+                  </span>
+                </span>
+                <span>
+                  Cylinder:{" "}
+                  <span className="text-[var(--text-primary)] font-medium">
+                    {state.thicknessInputs.cylinder}D
+                  </span>
+                </span>
+                <span>
+                  Axis:{" "}
+                  <span className="text-[var(--text-primary)] font-medium">
+                    {state.thicknessInputs.axis}°
+                  </span>
+                </span>
+                <span>
+                  Recommended:{" "}
+                  <span className="text-[var(--text-primary)] font-medium">
+                    {state.thicknessEstimate.recommendedIndex} Index
+                  </span>
+                </span>
+              </div>
+            </>
+          ) : (
+            <div className="text-[13px] text-[var(--text-secondary)]">Not calculated</div>
+          )}
+        </ResultCard>
+
+        <ResultCard title="Tint">
           <div className="text-[13px] text-[var(--text-secondary)]">
             {state.tint.color} — {state.tint.opacity}%
           </div>
@@ -93,8 +132,7 @@ export function FinalReviewScreen() {
           </div>
         </div>
       </div>
-      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0 space-y-2 bg-[var(--bg-app)]">
-        <SecondaryButton onClick={() => navigate("/measure/validation")}>EDIT</SecondaryButton>
+      <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0 bg-[var(--bg-app)]">
         <PrimaryButton onClick={() => navigate("/report")}>GENERATE REPORT</PrimaryButton>
       </div>
     </AppScreen>

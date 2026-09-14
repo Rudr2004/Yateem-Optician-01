@@ -9,13 +9,14 @@ interface CameraOverlayProps {
 }
 
 // Landmark positions expressed as % of the container. Two calibrations:
-// one for the real photo (measured against its object-cover crop in the
-// 3:4 preview box) and one for the illustrated FacePortrait fallback.
+// one for the real photo (measured pixel-precisely against front-face.jpeg's
+// object-cover crop in the 3:4 preview box) and one for the illustrated
+// FacePortrait fallback.
 const PHOTO_LANDMARKS = {
-  leftPupil: { x: 37.5, y: 49.2 },
-  rightPupil: { x: 63.8, y: 49.2 },
-  face: { left: 22, top: 20, width: 56, height: 55 },
-  frame: { left: 28, top: 43.5, width: 48, height: 11 },
+  leftPupil: { x: 31.5, y: 45.5 },
+  rightPupil: { x: 60.5, y: 45.5 },
+  face: { left: 8, top: 2, width: 78, height: 80 },
+  frame: { left: 13, top: 38, width: 75, height: 15 },
 };
 
 const ILLUSTRATION_LANDMARKS = {
@@ -52,7 +53,7 @@ export function CameraOverlay({
           height: `${landmarks.face.height}%`,
         }}
       >
-        <span className="absolute -top-5 left-0 text-[9px] font-semibold text-emerald-300 bg-black/50 px-1.5 py-0.5 rounded">
+        <span className="absolute top-1.5 left-1.5 text-[9px] font-semibold text-emerald-300 bg-black/50 px-1.5 py-0.5 rounded">
           FACE
         </span>
       </div>

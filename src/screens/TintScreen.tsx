@@ -5,33 +5,16 @@ import { PrimaryButton } from "../components/Buttons";
 import { FacePortrait } from "../components/FacePortrait";
 import { FACE_GLASSES, FACE_FRONT } from "../assets/faceImages";
 import { useAppState } from "../state/AppStateContext";
-import type { FrameShape, TintColor } from "../types";
+import type { TintColor } from "../types";
 
-// Pupil centers measured against the customer photo's object-cover crop
-// in the 3:4 preview box (detected via pixel analysis, not eyeballed):
-// left eye at 37.5%/49.2%, right eye at 63.8%/49.2%.
-const LEFT_EYE = { cx: 112.5, cy: 197 };
-const RIGHT_EYE = { cx: 191.4, cy: 197 };
-
-function LensShape({ cx, cy, shape }: { cx: number; cy: number; shape: FrameShape }) {
-  if (shape === "round") {
-    return <circle cx={cx} cy={cy} r={34} />;
-  }
-  if (shape === "cat-eye") {
-    const half = 42;
-    return (
-      <path
-        d={`M${cx - half} ${cy + 12}
-            Q${cx - half - 4} ${cy - 20} ${cx} ${cy - 26}
-            Q${cx + half + 4} ${cy - 20} ${cx + half} ${cy + 12}
-            Q${cx + half - 10} ${cy + 28} ${cx} ${cy + 26}
-            Q${cx - half + 10} ${cy + 28} ${cx - half} ${cy + 12} Z`}
-      />
-    );
-  }
-  // rectangle
-  return <rect x={cx - 40} y={cy - 29} width={80} height={58} rx={14} />;
-}
+// front-face.jpeg shows the customer already wearing real glasses, so the
+// tint preview colors the actual lens areas of that photo rather than
+// drawing a second frame outline on top of it (which used to visibly
+// double up with the real frame). Ellipses measured pixel-precisely against
+// the photo's object-cover crop in the 3:4 preview box, sitting just inside
+// the real frame's rim so the black rim stays visible through the tint.
+const LEFT_LENS = { cx: 27.5, cy: 48, rx: 12.5, ry: 11 };
+const RIGHT_LENS = { cx: 67, cy: 47, rx: 16, ry: 11 };
 
 const TINT_COLORS: { key: TintColor; hex: string }[] = [
   { key: "Grey", hex: "#6b7280" },
@@ -48,7 +31,6 @@ export function TintScreen() {
   const { state, setTintColor, setTintOpacity } = useAppState();
   const activeColor = TINT_COLORS.find((c) => c.key === state.tint.color)!;
   const photoSrc = FACE_GLASSES || FACE_FRONT;
-  const frameShape: FrameShape = state.selectedFrame?.shape ?? "round";
 
   return (
     <AppScreen>
@@ -61,30 +43,38 @@ export function TintScreen() {
             <FacePortrait className="absolute inset-0 w-full h-full" />
           )}
 
-          {/* Frame outline with tinted lenses, positioned over the eye area (calibrated to the customer photo) */}
+          {/* Tints the customer's real glasses lenses in the photo, rather than
+              drawing a second frame outline on top of the existing one. */}
           <svg
-            viewBox="0 0 300 400"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
             className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ display: photoSrc ? "block" : "none" }}
           >
-            <g stroke="#1a1a1a" strokeWidth="3.5" strokeLinejoin="round">
-              <g fill={activeColor.hex} opacity={state.tint.opacity / 100}>
-                <LensShape cx={LEFT_EYE.cx} cy={LEFT_EYE.cy} shape={frameShape} />
-                <LensShape cx={RIGHT_EYE.cx} cy={RIGHT_EYE.cy} shape={frameShape} />
-              </g>
-              <path d="M158 193 Q152 187 146 193" fill="none" />
-              <path d="M79 187 L55 177" strokeLinecap="round" />
-              <path d="M225 187 L249 177" strokeLinecap="round" />
+            <g fill={activeColor.hex} opacity={state.tint.opacity / 100} style={{ mixBlendMode: "multiply" }}>
+              <ellipse cx={LEFT_LENS.cx} cy={LEFT_LENS.cy} rx={LEFT_LENS.rx} ry={LEFT_LENS.ry} mask="url(#lensFeather)" />
+              <ellipse cx={RIGHT_LENS.cx} cy={RIGHT_LENS.cy} rx={RIGHT_LENS.rx} ry={RIGHT_LENS.ry} mask="url(#lensFeather)" />
             </g>
             <g fill="url(#lensSheen)">
-              <LensShape cx={LEFT_EYE.cx} cy={LEFT_EYE.cy} shape={frameShape} />
-              <LensShape cx={RIGHT_EYE.cx} cy={RIGHT_EYE.cy} shape={frameShape} />
+              <ellipse cx={LEFT_LENS.cx} cy={LEFT_LENS.cy} rx={LEFT_LENS.rx} ry={LEFT_LENS.ry} mask="url(#lensFeather)" />
+              <ellipse cx={RIGHT_LENS.cx} cy={RIGHT_LENS.cy} rx={RIGHT_LENS.rx} ry={RIGHT_LENS.ry} mask="url(#lensFeather)" />
             </g>
             <defs>
               <linearGradient id="lensSheen" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.35" />
-                <stop offset="55%" stopColor="#ffffff" stopOpacity="0.03" />
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
+                <stop offset="55%" stopColor="#ffffff" stopOpacity="0.02" />
               </linearGradient>
+              {/* Radial fade so the tint softens toward the lens edge instead of
+                  ending in a hard geometric circle. Uses an ellipse (not a
+                  rect) as the mask shape so the fade follows the lens's own
+                  aspect ratio instead of being squashed by the bounding box. */}
+              <radialGradient id="lensFeatherGradient">
+                <stop offset="88%" stopColor="#fff" stopOpacity="1" />
+                <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+              </radialGradient>
+              <mask id="lensFeather" maskContentUnits="objectBoundingBox">
+                <ellipse cx="0.5" cy="0.5" rx="0.5" ry="0.5" fill="url(#lensFeatherGradient)" />
+              </mask>
             </defs>
           </svg>
 
