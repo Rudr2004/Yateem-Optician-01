@@ -7,8 +7,7 @@ import { HomeScreen } from "./screens/HomeScreen";
 import { CustomerDetailsScreen } from "./screens/CustomerDetailsScreen";
 import { FrameSelectionScreen } from "./screens/FrameSelectionScreen";
 import { MeasurementIntroScreen } from "./screens/MeasurementIntroScreen";
-import { CameraMeasurementScreen } from "./screens/CameraMeasurementScreen";
-import { ScanningScreen } from "./screens/ScanningScreen";
+import { CalibrationScreen } from "./screens/CalibrationScreen";
 import { MeasurementResultsScreen } from "./screens/MeasurementResultsScreen";
 import { MeasurementValidationScreen } from "./screens/MeasurementValidationScreen";
 import { LensTypeScreen } from "./screens/LensTypeScreen";
@@ -32,8 +31,7 @@ function App() {
               <Route path="/customer" element={<CustomerDetailsScreen />} />
               <Route path="/frame-selection" element={<FrameSelectionScreen />} />
               <Route path="/measure/intro" element={<MeasurementIntroScreen />} />
-              <Route path="/measure/camera" element={<CameraMeasurementScreen />} />
-              <Route path="/measure/scanning" element={<ScanningScreen />} />
+              <Route path="/measure/calibrate" element={<CalibrationScreen />} />
               <Route path="/measure/results" element={<MeasurementResultsScreen />} />
               <Route path="/measure/validation" element={<MeasurementValidationScreen />} />
               <Route path="/lens" element={<LensTypeScreen />} />

@@ -77,7 +77,7 @@ export function MeasurementIntroScreen() {
         </div>
       </div>
       <div className="px-4 pb-[max(20px,env(safe-area-inset-bottom))] pt-2 flex-shrink-0 bg-[var(--bg-app)]">
-        <PrimaryButton onClick={() => navigate("/measure/camera")}>
+        <PrimaryButton onClick={() => navigate("/measure/calibrate")}>
           START CAMERA MEASUREMENT
         </PrimaryButton>
       </div>
