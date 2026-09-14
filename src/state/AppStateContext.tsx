@@ -9,15 +9,16 @@ import type {
   MeasurementValue,
 } from "../types";
 import {
-  MOCK_CUSTOMER,
   DEFAULT_MEASUREMENTS,
   DEFAULT_THICKNESS_INPUTS,
   generateMeasurementId,
 } from "../mockData";
 
+const EMPTY_CUSTOMER: Customer = { name: "", customerId: "", phone: "", dob: "" };
+
 function initialState(): AppState {
   return {
-    customer: MOCK_CUSTOMER,
+    customer: { ...EMPTY_CUSTOMER },
     selectedFrame: null,
     measurementStatus: "idle",
     aiScanProgress: 0,

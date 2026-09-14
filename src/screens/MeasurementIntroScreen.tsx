@@ -68,7 +68,7 @@ export function MeasurementIntroScreen() {
           </div>
         </div>
 
-        <div className="bg-blue-50 border border-[var(--royal)]/15 rounded-2xl p-4 flex gap-3">
+        <div className="bg-[var(--royal)]/10 border border-[var(--royal)]/15 rounded-2xl p-4 flex gap-3">
           <Info size={16} className="text-[var(--royal)] flex-shrink-0 mt-0.5" />
           <p className="text-[12px] text-[var(--text-secondary)] leading-relaxed">
             Camera-assisted measurement uses facial landmarks, eye/pupil detection, frame
