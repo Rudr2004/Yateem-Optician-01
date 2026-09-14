@@ -22,7 +22,7 @@ export function SecondaryButton({ children, fullWidth = true, icon, className = 
   return (
     <button
       {...props}
-      className={`${fullWidth ? "w-full" : ""} flex items-center justify-center gap-2 bg-white border border-[var(--border-soft)] text-[var(--text-primary)] font-semibold text-[14px] py-3.5 rounded-2xl active:scale-[0.98] active:bg-[var(--bg-subtle)] transition-transform disabled:opacity-40 shadow-sm ${className}`}
+      className={`${fullWidth ? "w-full" : ""} flex items-center justify-center gap-2 bg-[var(--bg-card)] border border-[var(--border-soft)] text-[var(--text-primary)] font-semibold text-[14px] py-3.5 rounded-2xl active:scale-[0.98] active:bg-[var(--bg-subtle)] transition-transform disabled:opacity-40 shadow-sm ${className}`}
     >
       {icon}
       {children}

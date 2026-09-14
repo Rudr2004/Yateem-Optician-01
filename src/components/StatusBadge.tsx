@@ -11,7 +11,7 @@ const VARIANT_STYLES: Record<StatusVariant, string> = {
   ok: "bg-[var(--success-bg)] text-[var(--success)] border-[var(--success)]/20",
   review: "bg-[var(--warning-bg)] text-[var(--warning)] border-[var(--warning)]/25",
   pending: "bg-[var(--bg-subtle)] text-[var(--text-muted)] border-[var(--border-soft)]",
-  processing: "bg-blue-50 text-[var(--royal)] border-[var(--royal)]/20",
+  processing: "bg-[var(--royal)]/10 text-[var(--royal)] border-[var(--royal)]/20",
   neutral: "bg-[var(--bg-subtle)] text-[var(--text-secondary)] border-[var(--border-soft)]",
 };
 

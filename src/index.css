@@ -25,6 +25,30 @@
   --danger-bg: #fdecec;
 }
 
+/* Dark theme: same token names, re-mapped values. Applied via
+   [data-theme="dark"] on <html> so every screen (which only ever reads the
+   var(--token) names, never hardcoded colors) re-themes automatically. */
+[data-theme="dark"] {
+  --navy: #1c2b52;
+  --navy-deep: #0d1730;
+  --royal: #3b6fe0;
+  --royal-light: #5b8def;
+  --accent: #5b8def;
+  --bg-app: #0b0f1a;
+  --bg-card: #141a29;
+  --bg-subtle: #1b2233;
+  --border-soft: #2a3245;
+  --text-primary: #f1f4fa;
+  --text-secondary: #aab3c5;
+  --text-muted: #6d7791;
+  --success: #34d17a;
+  --success-bg: #103322;
+  --warning: #f0a93e;
+  --warning-bg: #3a2a10;
+  --danger: #f26161;
+  --danger-bg: #3a1414;
+}
+
 * {
   -webkit-tap-highlight-color: transparent;
   box-sizing: border-box;
