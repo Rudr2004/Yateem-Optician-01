@@ -15,8 +15,18 @@ export function FinalReviewScreen() {
       <MobileHeader title="Final Review" showBack light />
       <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-3 animate-fade-slide-up">
         <ResultCard title="Customer">
-          <div className="text-[14px] font-semibold text-[var(--text-primary)]">{state.customer.name}</div>
-          <div className="text-[11px] text-[var(--text-muted)]">{state.customer.customerId}</div>
+          {state.customer.name ? (
+            <>
+              <div className="text-[14px] font-semibold text-[var(--text-primary)]">
+                {state.customer.name}
+              </div>
+              <div className="text-[11px] text-[var(--text-muted)]">
+                {state.customer.customerId || "No ID assigned"}
+              </div>
+            </>
+          ) : (
+            <div className="text-[13px] text-[var(--text-secondary)]">Not entered</div>
+          )}
         </ResultCard>
 
         <ResultCard title="Frame">
@@ -58,7 +68,7 @@ export function FinalReviewScreen() {
               {state.coatings.map((c) => (
                 <span
                   key={c}
-                  className="text-[11px] font-medium text-[var(--royal)] bg-blue-50 border border-[var(--royal)]/15 rounded-full px-2.5 py-1"
+                  className="text-[11px] font-medium text-[var(--royal)] bg-[var(--royal)]/10 border border-[var(--royal)]/15 rounded-full px-2.5 py-1"
                 >
                   {c}
                 </span>

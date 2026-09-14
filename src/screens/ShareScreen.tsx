@@ -37,7 +37,7 @@ export function ShareScreen() {
               onClick={() => showToast(`${label} sent successfully`)}
               className="flex flex-col items-center gap-2 bg-[var(--bg-card)] border border-[var(--border-soft)] rounded-2xl p-5 active:bg-[var(--bg-subtle)] shadow-sm"
             >
-              <div className="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center">
+              <div className="w-11 h-11 rounded-full bg-[var(--royal)]/10 flex items-center justify-center">
                 <Icon size={19} className="text-[var(--royal)]" />
               </div>
               <span className="text-[12px] font-semibold text-[var(--text-primary)]">{label}</span>

@@ -31,7 +31,7 @@ export function LensTypeScreen() {
                 selected ? "border-[var(--royal)] ring-1 ring-[var(--royal)]/25" : "border-[var(--border-soft)]"
               }`}
             >
-              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[var(--royal)]/10 flex items-center justify-center flex-shrink-0">
                 <Icon size={18} className="text-[var(--royal)]" />
               </div>
               <div className="flex-1">

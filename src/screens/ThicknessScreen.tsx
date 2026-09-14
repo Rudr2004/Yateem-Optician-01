@@ -51,7 +51,7 @@ export function ThicknessScreen() {
     <AppScreen>
       <MobileHeader title="Lens Thickness Estimator" showBack light />
       <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-4 animate-fade-slide-up">
-        <div className="flex items-center gap-2 bg-blue-50 border border-[var(--royal)]/15 rounded-xl px-3 py-2">
+        <div className="flex items-center gap-2 bg-[var(--royal)]/10 border border-[var(--royal)]/15 rounded-xl px-3 py-2">
           <Calculator size={14} className="text-[var(--royal)]" />
           <span className="text-[11px] text-[var(--royal)] font-semibold">Rule / Formula-Based Calculation</span>
         </div>
